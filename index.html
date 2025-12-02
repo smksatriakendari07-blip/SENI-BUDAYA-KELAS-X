@@ -3,71 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ujian Terkunci</title>
+<title>HALAMAN UJIAN TERKUNCI</title>
 
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    text-align: center;
-    margin-top: 100px;
-}
-#lockScreen {
-    display: none;
-}
-input {
-    padding: 10px;
-    font-size: 18px;
-    width: 250px;
-}
-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-}
+    body {
+        background: #b30000;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 80px;
+    }
+    #panel {
+        margin-top: 40px;
+    }
+    input {
+        padding: 12px;
+        font-size: 18px;
+        width: 80%;
+        max-width: 300px;
+        border-radius: 6px;
+        border: none;
+    }
+    button {
+        margin-top: 15px;
+        padding: 12px 20px;
+        font-size: 18px;
+        border: none;
+        background: black;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
 </style>
-
 </head>
 <body>
 
-<div id="lockScreen">
-    <h1 style="color:red">HALAMAN TERKUNCI</h1>
-    <p>Anda terdeteksi keluar dari halaman ujian.</p>
-    <p>Masukkan kunci panitia untuk membuka kembali:</p>
+<h1>⚠️ HALAMAN UJIAN TERKUNCI</h1>
+<p>Sistem mendeteksi bahwa Anda keluar dari halaman ujian.</p>
+<p>Akses tetap terkunci sampai panitia memasukkan kunci.</p>
 
-    <input type="password" id="kunciInput" placeholder="Masukkan kunci panitia">
-    <br><br>
-    <button onclick="bukaKunci()">Buka Kunci</button>
-    <p id="notif" style="color:red; font-weight:bold;"></p>
+<div id="panel">
+    <input type="password" id="kunci" placeholder="Masukkan kunci panitia">
+    <br>
+    <button onclick="bukaUjian()">Buka Ujian</button>
 </div>
 
 <script>
-// ------------------------------
-// Cek apakah sudah dibuka panitia
-// ------------------------------
-if (localStorage.getItem("isUnlocked") === "true") {
-    // Jika sudah dibuka panitia → langsung kembali ke ujian
-    window.location.href = "ujian.html"; 
-} else {
-    // Jika belum dibuka → tampilkan halaman terkunci
-    document.getElementById("lockScreen").style.display = "block";
-}
+function bukaUjian() {
+    const pass = document.getElementById("kunci").value;
 
-// ------------------------------
-// Fungsi untuk buka kunci
-// ------------------------------
-function bukaKunci() {
-    let input = document.getElementById("kunciInput").value;
-    let kunciBenar = "PANITIA123"; // 👉 Ganti sandi sesuai kebutuhan
+    // Sandi panitia (boleh diganti)
+    const kunciPanitia = "SMK2024";
 
-    if (input === kunciBenar) {
-        // Simpan status bahwa panitia sudah membuka
-        localStorage.setItem("isUnlocked", "true");
-
-        // Masuk kembali ke halaman ujian
-        window.location.href = "ujian.html";
+    if (pass === kunciPanitia) {
+        // MASUKKAN LINK GOOGLE FORM DI SINI ⬇⬇⬇
+        window.location.href = "https://docs.google.com/forms/d/e/ISI_LINK_FORM_ANDA/viewform";
     } else {
-        document.getElementById("notif").innerText = "❌ Kunci salah!";
+        alert("Kunci salah! Hubungi panitia.");
     }
 }
 </script>
