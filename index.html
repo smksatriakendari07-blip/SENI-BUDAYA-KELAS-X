@@ -46,6 +46,26 @@
 
             user-select: none;
         }
+
+        /* Tombol admin terlihat jelas */
+        #admin-btn {
+            position: fixed;
+            left: 15px;
+            bottom: 15px;
+            background: #ffffff;
+            color: #b30000;
+            padding: 8px 14px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+        }
+
+        #admin-btn:hover {
+            background: #ffeeee;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +108,7 @@ document.addEventListener("visibilitychange", function () {
 });
 
 // =======================
-// TAMPILKAN HALAMAN TERKUNCI
+// TAMPILKAN HALAMAN TERKUNCI + ADMIN BUTTON
 // =======================
 function kunciHalaman() {
     document.body.innerHTML = `
@@ -109,19 +129,10 @@ function kunciHalaman() {
             <p style="font-size: 20px; opacity: 0.9;">
                 Walaupun Anda menyegarkan halaman, akses tetap terkunci.
             </p>
-
-            <!-- Tombol admin (tidak mencolok) -->
-            <button onclick="adminUnlock()" style="
-                margin-top: 40px;
-                background: transparent;
-                border: none;
-                color: #b30000;
-                font-size: 10px;
-                opacity: 0.08;
-            ">
-                ADMIN UNLOCK
-            </button>
         </div>
+
+        <!-- Tombol Admin Unlock terlihat jelas -->
+        <button id="admin-btn" onclick="adminUnlock()">🔓 Admin Unlock</button>
     `;
 }
 
