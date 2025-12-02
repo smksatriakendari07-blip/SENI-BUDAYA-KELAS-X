@@ -1,63 +1,118 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HALAMAN UJIAN TERKUNCI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APLIKASI UJIAN</title>
 
-<style>
-    body {
-        background: #b30000;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding-top: 80px;
-    }
-    #panel {
-        margin-top: 40px;
-    }
-    input {
-        padding: 12px;
-        font-size: 18px;
-        width: 80%;
-        max-width: 300px;
-        border-radius: 6px;
-        border: none;
-    }
-    button {
-        margin-top: 15px;
-        padding: 12px 20px;
-        font-size: 18px;
-        border: none;
-        background: black;
-        color: white;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-</style>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        .header {
+            background: #510375;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        iframe {
+            width: 100vw;
+            height: calc(100vh - 50px);
+            border: none;
+        }
+
+        /* Halaman terkunci */
+        #lockScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #b30000;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+            display: none;
+        }
+
+        #lockScreen input {
+            padding: 12px;
+            font-size: 18px;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        #lockScreen button {
+            margin-top: 12px;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            background: black;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<h1>⚠️ HALAMAN UJIAN TERKUNCI</h1>
-<p>Sistem mendeteksi bahwa Anda keluar dari halaman ujian.</p>
-<p>Akses tetap terkunci sampai panitia memasukkan kunci.</p>
+<div class="header">APLIKASI UJIAN</div>
 
-<div id="panel">
-    <input type="password" id="kunci" placeholder="Masukkan kunci panitia">
+<!-- Google Form Anda -->
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScquLVp62LVYsetZTYpoJVwVRWNiX335WcPoDosdRPVG3j5Ww/viewform?usp=header"></iframe>
+
+<!-- Halaman terkunci -->
+<div id="lockScreen">
+    <h1>⚠️ HALAMAN UJIAN TERKUNCI</h1>
+    <p>Sistem mendeteksi Anda keluar dari halaman ujian.</p>
+    <p>Masukkan kunci panitia untuk melanjutkan.</p>
+
+    <input type="password" id="kunci" placeholder="Kunci panitia">
     <br>
     <button onclick="bukaUjian()">Buka Ujian</button>
 </div>
 
 <script>
+const kunciPanitia = "SMK2024"; // GANTI PASSWORD PANITIA
+
+// Saat halaman dibuka kembali → cek apakah terkunci
+if (localStorage.getItem("locked") === "true") {
+    munculKunci();
+}
+
+// Deteksi jika keluar halaman (pindah tab / aplikasi)
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        kunciHalaman();
+    }
+});
+
+// Mengunci halaman
+function kunciHalaman() {
+    localStorage.setItem("locked", "true");
+    munculKunci();
+}
+
+// Menampilkan halaman kunci
+function munculKunci() {
+    document.getElementById("lockScreen").style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+// Tombol panitia membuka halaman
 function bukaUjian() {
-    const pass = document.getElementById("kunci").value;
+    const input = document.getElementById("kunci").value;
 
-    // Sandi panitia (boleh diganti)
-    const kunciPanitia = "SMK2024";
-
-    if (pass === kunciPanitia) {
-        // MASUKKAN LINK GOOGLE FORM DI SINI ⬇⬇⬇
-        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLScquLVp62LVYsetZTYpoJVwVRWNiX335WcPoDosdRPVG3j5Ww/viewform?usp=header";
+    if (input === kunciPanitia) {
+        localStorage.removeItem("locked");
+        document.getElementById("lockScreen").style.display = "none";
+        document.body.style.overflow = "auto";
     } else {
         alert("Kunci salah! Hubungi panitia.");
     }
@@ -66,4 +121,3 @@ function bukaUjian() {
 
 </body>
 </html>
-
