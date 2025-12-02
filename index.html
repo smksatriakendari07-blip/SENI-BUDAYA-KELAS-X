@@ -1,14 +1,102 @@
-<script>
-const kunciPanitia = "SMK2024"; // Ganti sandi panitia
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APLIKASI UJIAN</title>
 
-// Sembunyikan input & tombol di awal
-document.getElementById("kunci").style.display = "none";
-document.querySelector("#lockScreen button").style.display = "none";
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        .header {
+            background: #510375;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        iframe {
+            width: 100vw;
+            height: calc(100vh - 50px);
+            border: none;
+        }
+
+        /* Halaman terkunci */
+        #lockScreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #b30000;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+            display: none;
+            z-index: 9999;
+        }
+
+        #lockScreen input, 
+        #lockScreen button {
+            display: none;
+            padding: 12px;
+            font-size: 18px;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 6px;
+            border: none;
+            margin-top: 10px;
+        }
+
+        #lockScreen button {
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Area rahasia (tidak terlihat) */
+        #secretArea {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">APLIKASI UJIAN</div>
+
+<!-- Google Form Anda -->
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScquLVp62LVYsetZTYpoJVwVRWNiX335WcPoDosdRPVG3j5Ww/viewform?usp=header"></iframe>
+
+<!-- Halaman terkunci -->
+<div id="lockScreen">
+    <h1>⚠️ HALAMAN UJIAN TERKUNCI</h1>
+    <p>Sistem mendeteksi Anda keluar dari halaman ujian.</p>
+    <p>Silakan hubungi panitia untuk membuka halaman.</p>
+
+    <input type="password" id="kunci" placeholder="Masukkan kunci panitia">
+    <button onclick="bukaUjian()">Buka Ujian</button>
+</div>
+
+<!-- Area rahasia -->
+<div id="secretArea"></div>
+
+<script>
+const kunciPanitia = "SMK2024"; // GANTI PASSWORD PANITIA
 
 let tapCount = 0;
 let tapTimer = null;
 
-// Sudut rahasia: tekan 5 kali untuk memunculkan kolom sandi
+// Munculkan input password jika panitia tekan area rahasia 5x
 document.getElementById("secretArea").addEventListener("click", function () {
     tapCount++;
 
@@ -25,12 +113,12 @@ document.getElementById("secretArea").addEventListener("click", function () {
     }
 });
 
-// Jika halaman dibuka ulang & terkunci → tampilkan layar terkunci
+// Saat halaman dibuka ulang → cek apakah terkunci
 if (localStorage.getItem("locked") === "true") {
     munculKunci();
 }
 
-// Deteksi keluar halaman
+// Deteksi keluar halaman (pindah tab / home / aplikasi lain)
 document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
         localStorage.setItem("locked", "true");
@@ -38,13 +126,13 @@ document.addEventListener("visibilitychange", function () {
     }
 });
 
-// Munculkan layar terkunci
+// Tampilkan layar terkunci
 function munculKunci() {
     document.getElementById("lockScreen").style.display = "block";
     document.body.style.overflow = "hidden";
 }
 
-// Tombol buka ujian (setelah sandi benar)
+// Buka halaman dengan password panitia
 function bukaUjian() {
     const input = document.getElementById("kunci").value;
 
@@ -52,8 +140,15 @@ function bukaUjian() {
         localStorage.removeItem("locked");
         document.getElementById("lockScreen").style.display = "none";
         document.body.style.overflow = "auto";
+
+        // Sembunyikan lagi panel sandi setelah buka
+        document.getElementById("kunci").style.display = "none";
+        document.querySelector("#lockScreen button").style.display = "none";
     } else {
-        alert("Kunci salah!");
+        alert("Kunci salah! Hubungi panitia.");
     }
 }
 </script>
+
+</body>
+</html>
